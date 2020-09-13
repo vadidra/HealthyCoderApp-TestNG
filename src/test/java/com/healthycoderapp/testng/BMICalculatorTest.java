@@ -1,8 +1,13 @@
 package com.healthycoderapp.testng;
 
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.*;
+
 
 public class BMICalculatorTest {
 
@@ -48,6 +53,26 @@ public class BMICalculatorTest {
         //then
         assertThrows(runnabale);
 
+    }
+
+    @Test
+    void returnCoderWithWorstBMI_When_CoderListNotEmpty(){
+
+        //given
+        List<Coder> coders = new ArrayList<>();
+        coders.add(new Coder(1.80, 60.0));
+        coders.add(new Coder(1.82, 98.0));
+        coders.add(new Coder(1.82, 64.7));
+
+        //when
+        Coder coderWorstBMI = BMICalculator.findCoderWithWorstBMI(coders);
+
+        //then
+        // multi assertion
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(1.82, coderWorstBMI.getHeight());
+        softAssert.assertEquals(98.0, coderWorstBMI.getWeight());
+        softAssert.assertAll();
     }
 
 
