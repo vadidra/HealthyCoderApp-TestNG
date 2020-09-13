@@ -7,7 +7,9 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import org.testng.asserts.SoftAssert;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -41,9 +43,11 @@ public class BMICalculatorTest {
 
     @Test(dataProvider = "provideWeightHigh")
     @Parameters("weight, height")
-    void returnTrue_When_DietRecommended_Parameterized(double weight, double height) {
+    void returnTrue_When_DietRecommended_Parameterized(double coderWeight, double coderHeight) {
 
         //given
+        double weight = coderWeight;
+        double height = coderHeight;
 
         //when
         boolean recommended = BMICalculator.isDietRecommended(weight,height);
@@ -61,6 +65,28 @@ public class BMICalculatorTest {
                 { 86.0, 1.82 },
                 { 98.0, 1.62 }
         };
+    }
+
+    @Test(dataProvider = "provideWeightHighCsv")
+    @Parameters("weight, height")
+    void returnTrue_When_DietRecommended_Parameterized_Csv(double coderWeight, double coderHeight) {
+
+        //given
+        double weight = coderWeight;
+        double height = coderHeight;
+
+        //when
+        boolean recommended = BMICalculator.isDietRecommended(weight,height);
+        System.out.println(recommended);
+
+        //then
+        assertTrue(recommended);
+    }
+
+    @DataProvider(name = "provideWeightHighCsv")
+    public Iterator<Object[]> testData() throws IOException
+    {
+        return DataProviderCsv.parseCsvDataDouble("C:\\projects_intellij\\HealthyCoderApp-TestNG\\src\\test\\resources\\diet-recommended-input-data.csv");
     }
 
     @Test
